@@ -1,45 +1,43 @@
-import wpilib
-from config import *
 
 __all__ = ['Drive']
 
 class Drive:
-    def __init__(self, driveJoy, halfspeedButton, alignButton ):
-        self.halfSpeed = True
-        self.speed = 0
-        self.rot = 0
 
-        self.aligning = False
-
+    def __init__(self, robot_drive, drive_joy, photo_sensors, half_speed_button,
+                 align_button ):
         self.left = 0
         self.right = 0
 
-        self.driveJoy = driveJoy
-        self.hsButton = halfspeedButton
-        self.alignButton = alignButton
+        self.robot_drive = robot_drive
+        self.drive_joy = drive_joy
+        self.hs_button = half_speed_button
+        self.align_button = align_button
+
+        self.photo_sensors = photo_sensors
 
     def tick(self):
-        if self.alignButton.get():
+        if self.align_button.get():
             self.align()
         else:
-            self.speed = self.driveJoy.GetY()
-            self.rot = self.driveJoy.GetX()
-            if self.hsButton.get():
-                self.speed /= 2
-                self.rot /= 2
-            robotDrive.ArcadeDrive(self.speed, self.rot)
+            speed = self.drive_joy.GetY()
+            rot = self.drive_joy.GetX()
+            if self.hs_button.get():
+                speed /= 2
+                rot /= 2
+            self.robot_drive.ArcadeDrive(speed, rot)
+
+    def stop(self):
+        self.robot_drive.StopMotor()
 
     def align(self):
-        if photo1.Get():
+        if self.photo_sensors[0].Get():
             self.left += .25
-        if photo2.Get():
+        if self.photo_sensors[1].Get():
             self.left -= .25
-        if photo3.Get():
+        if self.photo_sensors[2].Get():
             self.right += .25
-        if photo4.Get():
+        if self.photo_sensors[3].Get():
             self.right -= .25
-        #if self.left == 0 and self.right == 0:
-        #    self.aligning = False
 
         leftMotor.Set(self.left)
         rightMotor.Set(self.right)

@@ -1,8 +1,13 @@
 import wpilib
+
+import config
+
 from drive import Drive
 from loader import Loader
 from shooter import Shooter
 from config import *
+
+
 
 
 class MyRobot(wpilib.SimpleRobot):
@@ -10,7 +15,8 @@ class MyRobot(wpilib.SimpleRobot):
         super().__init__()
         self.loader = Loader()
         self.shooter = Shooter()
-        self.drive = Drive(leftJoy, hsButton, alignButton)
+        self.drive = Drive(config.robotDrive, config.leftJoy, config.hsButton,
+                           config.alignButton)
         self.componets = [ self.loader, self.shooter, self.drive ]
 
     def RobotInit(self):
@@ -32,7 +38,7 @@ class MyRobot(wpilib.SimpleRobot):
         dog.SetEnabled(True)
         dog.SetExpiration(0.25)
 
-        robotDrive.StopMotor()
+        self.drive.stop()
         shooterMotor.Set(0)
         tipperMotor.Set(0)
         rollerMotor.Set(0)

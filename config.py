@@ -21,6 +21,7 @@ feederServo = wpilib.Servo(8)
 # Sensors
 shooterEncoder = wpilib.Encoder(1, 2, False)
 
+photoSensors = []
 for i in range(5):
 	photoSensors.append( wpilib.DigitalInput(i+4) )
 

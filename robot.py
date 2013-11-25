@@ -16,8 +16,7 @@ class MyRobot(wpilib.SimpleRobot):
         self.loader = Loader(feederButton, feederServo)
         self.shooter = Shooter(rightJoy, latchButton, latchServo, shooterMotor)
         self.drive = Drive(config.robotDrive, config.leftJoy, 
-                            [ photo1, photo2, photo3, photo4 ], 
-                            config.hsButton, config.alignButton)
+                            photoSensors, config.hsButton, config.alignButton)
         self.componets = [ self.loader, self.shooter, self.drive ]
 
     def RobotInit(self):

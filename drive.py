@@ -15,7 +15,7 @@ class Drive:
 
         self.photo_sensors = photo_sensors
 
-    def tick(self, time):
+    def tick(self, time = 0):
         if self.align_button.get():
             self.align()
         else:

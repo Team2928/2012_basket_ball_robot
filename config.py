@@ -29,29 +29,23 @@ photo4 = wpilib.DigitalInput(7)
 topLimit = wpilib.DigitalInput(9)
 bottomLimit = wpilib.DigitalInput(10)
 
-timer = wpilib.Timer()
-
 # Button Mappings
 ## Right Joystick ##
-tipperUp = 6
 tipperUpButton = Button(rightJoy, 6)
-tipperDown = 7
 tipperDownButton = Button(rightJoy, 7)
 
-alignButtonNum = 3
 alignButton = Button(rightJoy, 3)
 
-latchButton = 4
-feederButton = 5
-rollerUpButton = 11
-rollerDownButton = 10
+latchButton = Button(rightJoy, 4)
+feederButton = Button(rightJoy, 5)
+rollerUpButton = Button(rightJoy, 11)
+rollerDownButton = Button(rightJoy, 10)
+
 
 ## Left Joystick ##
-halfSpeed = 1
 hsButton = Button(leftJoy, 1)
 
 # Core Functions
 def CheckRestart():
     return
-##    if leftJoy.GetRawButton(10):
-##        raise SystemExit
+    # We need to do something about this at some point.....

@@ -44,3 +44,7 @@ class RobotDrive(object):
     def StopMotor(self):
         self.speed = 0
         self.rotation = 0
+
+    def SetLeftRightMotorOutputs  (self, leftOutput,  rightOutput):
+        # Not really sure what we want to do with this, but it'll have to be something
+

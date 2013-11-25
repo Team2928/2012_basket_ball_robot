@@ -13,10 +13,11 @@ from config import *
 class MyRobot(wpilib.SimpleRobot):
     def __init__(self):
         super().__init__()
-        self.loader = Loader()
-        self.shooter = Shooter()
-        self.drive = Drive(config.robotDrive, config.leftJoy, config.hsButton,
-                           config.alignButton)
+        self.loader = Loader(feederButton, feederServo)
+        self.shooter = Shooter(rightJoy, latchButton, latchServo, shooterMotor)
+        self.drive = Drive(config.robotDrive, config.leftJoy, 
+                            [ photo1, photo2, photo3, photo4 ], 
+                            config.hsButton, config.alignButton)
         self.componets = [ self.loader, self.shooter, self.drive ]
 
     def RobotInit(self):
@@ -47,12 +48,12 @@ class MyRobot(wpilib.SimpleRobot):
             dog.Feed()
             CheckRestart()
             for componet in self.componets:
-                componet.tick()
+                componet.tick(wpilib.Timer.GetFPGATimestamp())
 
-            #Teleop Code
+            ## Teleop Code
             #if not self.drive.aligning :
             #    self.drive.arcadeDrive(leftJoy.GetRawButton(halfSpeed))
-            shooterMotor.Set(rightJoy.GetY())
+            #shooterMotor.Set(rightJoy.GetY())
 
             ## Alignment
             #if leftJoy.GetRawButton(allignButton) :
@@ -64,28 +65,28 @@ class MyRobot(wpilib.SimpleRobot):
             #    self.drive.aligning = False
 
             ## Tipper Up and Down
-            if rightJoy.GetRawButton(tipperUp):
+            if tipperUpButton.get():
                 tipperMotor.Set(-1)
-            elif rightJoy.GetRawButton(tipperDown):
+            elif tipperDownButton.get():
                 tipperMotor.Set(1)
             else:
                 tipperMotor.Set(0)
 
             ## Roller Up and Down
-            if rightJoy.GetRawButton(rollerUpButton):
+            if rollerUpButton.get():
                 rollerMotor.Set(-1)
-            elif rightJoy.GetRawButton(rollerDownButton):
+            elif rollerDownButton.get()):
                 rollerMotor.Set(1)
             else:
                 rollerMotor.Set(0)
 
             ## Loading
-            if rightJoy.GetRawButton(feederButton):
-                self.loader.load()
+            #if rightJoy.GetRawButton(feederButton):
+            #    self.loader.load()
 
             ## Shooting
-            if rightJoy.GetRawButton(latchButton):
-                self.shooter.unlatch()
+            #if rightJoy.GetRawButton(latchButton):
+            #    self.shooter.unlatch()
 
             ## Debug & Tuning
 

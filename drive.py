@@ -3,19 +3,19 @@ __all__ = ['Drive']
 
 class Drive:
 
-    def __init__(self, robot_drive, drive_joy, photo_sensors, half_speed_button,
+    def __init__(self, robot_drive, drive_joy, photo_sensors, halfspeed_button,
                  align_button ):
         self.left = 0
         self.right = 0
 
         self.robot_drive = robot_drive
         self.drive_joy = drive_joy
-        self.hs_button = half_speed_button
+        self.hs_button = halfspeed_button
         self.align_button = align_button
 
         self.photo_sensors = photo_sensors
 
-    def tick(self):
+    def tick(self, time):
         if self.align_button.get():
             self.align()
         else:
@@ -39,5 +39,5 @@ class Drive:
         if self.photo_sensors[3].Get():
             self.right -= .25
 
-        leftMotor.Set(self.left)
-        rightMotor.Set(self.right)
+        # I think this should work....?
+        self.robot_drive.SetLeftRightMotorOutputs(self.left, self.right)

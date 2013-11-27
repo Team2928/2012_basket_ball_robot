@@ -26,7 +26,7 @@ class Shooter:
 
         self.shooter_motor.Set(self.joy.GetY())
 
-        if latch_button.get():
+        if self.latch_button.get():
             self.unlatch()
         if self.shooting:
             if self.elapsed >= self.endTime:

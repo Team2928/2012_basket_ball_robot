@@ -25,8 +25,18 @@ class TestDrive(unittest.TestCase):
         self.hs_button = mock.Button()
         self.align_button = mock.Button()
 
-        self.drive = drive.Drive(self.robot_drive, self.joy, self.photo_sensors,
-                                 self.hs_button, self.align_button)
+
+        class MockDriveConfig(object):
+            # Motors & Drive System
+            robot_drive = self.robot_drive
+            drive_joy = self.joy
+
+            photo_sensors = self.photo_sensors
+
+            align_button = self.align_button
+            hs_button = self.hs_button
+
+        self.drive = drive.Drive(MockDriveConfig)
 
     def tearDown(self):
         pass
@@ -119,9 +129,10 @@ class TestDrive(unittest.TestCase):
             self.assertEquals(self.robot_drive.speed, self.joy.y)
             self.assertEquals(self.robot_drive.rotation, self.joy.x/2)
 
+
 class TestShooter(unittest.TestCase):
     def setUp(self):
-        self.joy = mock.Joystick()
+        self.joy = mock.JoyStick()
         self.latch_button = mock.Button()
         self.latch_servo = mock.Servo()
         self.shooter_motor = mock.Motor()
@@ -140,7 +151,7 @@ class TestShooter(unittest.TestCase):
         for y in seq(-1.0, 1.0, 0.1):
             self.joy.y = y
 
-            self.drive.tick()
+            self.shooter.tick(10)
 
             self.assertEquals(self.shooter_motor.speed, self.joy.y)
             self.assertEquals(self.shooter_motor.Get(), self.joy.y)
@@ -149,11 +160,11 @@ class TestShooter(unittest.TestCase):
         for y in seq(1.0, -1.0, -0.1):
             self.joy.y = y
 
-            self.drive.tick()
+            self.shooter.tick(10)
 
             self.assertEquals(self.shooter_motor.speed, self.joy.y)
             self.assertEquals(self.shooter_motor.Get(), self.joy.y)
-        
+
 
 class TestLoader(unittest.TestCase):
     def setUp(self):

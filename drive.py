@@ -3,17 +3,16 @@ __all__ = ['Drive']
 
 class Drive:
 
-    def __init__(self, robot_drive, drive_joy, photo_sensors, halfspeed_button,
-                 align_button ):
+    def __init__(self, config):
         self.left = 0
         self.right = 0
 
-        self.robot_drive = robot_drive
-        self.drive_joy = drive_joy
-        self.hs_button = halfspeed_button
-        self.align_button = align_button
+        self.robot_drive = config.robot_drive
+        self.drive_joy = config.drive_joy
+        self.hs_button = config.hs_button
+        self.align_button = config.align_button
 
-        self.photo_sensors = photo_sensors
+        self.photo_sensors = config.photo_sensors
 
     def tick(self, time = 0):
         if self.align_button.get():

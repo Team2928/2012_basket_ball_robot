@@ -5,25 +5,32 @@ from utils import Button
 leftJoy = wpilib.Joystick(2)
 rightJoy = wpilib.Joystick(1)
 
-# Motors & Drive System
 leftMotor = wpilib.Jaguar(1)
 rightMotor = wpilib.Jaguar(2)
-robotDrive = wpilib.RobotDrive(leftMotor, rightMotor)
+
+
+class Drive(object):
+    # Motors & Drive System
+    robot_drive = wpilib.RobotDrive(leftMotor, rightMotor)
+    drive_joy = leftJoy
+
+    photo_sensors = [ wpilib.DigitalInput(x+6) for x in range(5) ]
+
+    align_button = Button(rightJoy, 3)
+    hs_button = Button(leftJoy, 1)
+
 
 shooterMotor = wpilib.Jaguar(4)
 tipperMotor = wpilib.Jaguar(7)
 rollerMotor = wpilib.Victor(10)
 
 # Servos
-latchServo = wpilib.Servo(5)
 feederServo = wpilib.Servo(8)
+latchServo = wpilib.Servo(5)
 
 # Sensors
 shooterEncoder = wpilib.Encoder(1, 2, False)
 
-photoSensors = []
-for i in range(5):
-	photoSensors.append( wpilib.DigitalInput(i+4) )
 
 topLimit = wpilib.DigitalInput(9)
 bottomLimit = wpilib.DigitalInput(10)
@@ -33,16 +40,11 @@ bottomLimit = wpilib.DigitalInput(10)
 tipperUpButton = Button(rightJoy, 6)
 tipperDownButton = Button(rightJoy, 7)
 
-alignButton = Button(rightJoy, 3)
-
 latchButton = Button(rightJoy, 4)
+
 feederButton = Button(rightJoy, 5)
 rollerUpButton = Button(rightJoy, 11)
 rollerDownButton = Button(rightJoy, 10)
-
-
-## Left Joystick ##
-hsButton = Button(leftJoy, 1)
 
 # Core Functions
 def CheckRestart():

@@ -14,7 +14,7 @@ class Drive(object):
     robot_drive = wpilib.RobotDrive(leftMotor, rightMotor)
     drive_joy = leftJoy
 
-    photo_sensors = [ wpilib.DigitalInput(x+6) for x in range(5) ]
+    photo_sensors = [ wpilib.DigitalInput(x+4) for x in range(5) ]
 
     align_button = Button(rightJoy, 3)
     hs_button = Button(leftJoy, 1)

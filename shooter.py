@@ -2,11 +2,11 @@
 __all__ = ['Shooter']
 
 class Shooter:
-    def __init__(self, joy, latchButton, latchServo, shooterMotor):
-        self.joy = joy
-        self.latch_button = latchButton
-        self.latch_servo = latchServo
-        self.shooter_motor = shooterMotor
+    def __init__(self, config):
+        self.joystick = config.joystick
+        self.latch_button = config.latch_button
+        self.latch_servo = config.latch_servo
+        self.shooter_motor = config.shooter_motor
 
         self.elapsed = 0
         self.endTime = .3
@@ -24,7 +24,7 @@ class Shooter:
         self.elapsed += time - self.pTime
         self.pTime = time
 
-        self.shooter_motor.Set(self.joy.GetY())
+        self.shooter_motor.Set(self.joystick.GetY())
 
         if self.latch_button.get():
             self.unlatch()

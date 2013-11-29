@@ -8,13 +8,11 @@ from shooter import Shooter
 from config import *
 
 
-
-
 class MyRobot(wpilib.SimpleRobot):
     def __init__(self):
         super().__init__()
         self.loader = Loader(feederButton, feederServo)
-        self.shooter = Shooter(rightJoy, latchButton, latchServo, shooterMotor)
+        self.shooter = Shooter(config.Shooter)
         self.drive = Drive(config.Drive)
 
         self.componets = [ self.loader, self.shooter, self.drive ]
@@ -49,20 +47,6 @@ class MyRobot(wpilib.SimpleRobot):
             for componet in self.componets:
                 componet.tick(wpilib.Timer.GetFPGATimestamp())
 
-            ## Teleop Code
-            #if not self.drive.aligning :
-            #    self.drive.arcadeDrive(leftJoy.GetRawButton(halfSpeed))
-            #shooterMotor.Set(rightJoy.GetY())
-
-            ## Alignment
-            #if leftJoy.GetRawButton(allignButton) :
-            #    if not self.drive.aligning:
-            #        self.drive.aligning = True
-            #        robotDrive.StopMotor()
-            #    self.drive.align()
-            #else:
-            #    self.drive.aligning = False
-
             ## Tipper Up and Down
             if tipperUpButton.get():
                 tipperMotor.Set(-1)
@@ -78,14 +62,6 @@ class MyRobot(wpilib.SimpleRobot):
                 rollerMotor.Set(1)
             else:
                 rollerMotor.Set(0)
-
-            ## Loading
-            #if rightJoy.GetRawButton(feederButton):
-            #    self.loader.load()
-
-            ## Shooting
-            #if rightJoy.GetRawButton(latchButton):
-            #    self.shooter.unlatch()
 
             ## Debug & Tuning
 

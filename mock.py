@@ -9,7 +9,7 @@ class Button(object):
         return self.pressed
 
 
-class JoyStick(object):
+class Joystick(object):
 
     def __init__(self):
         self.x = 0

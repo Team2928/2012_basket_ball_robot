@@ -10,23 +10,33 @@ rightMotor = wpilib.Jaguar(2)
 
 
 class Drive(object):
-    # Motors & Drive System
     robot_drive = wpilib.RobotDrive(leftMotor, rightMotor)
+
     drive_joy = leftJoy
 
     photo_sensors = [ wpilib.DigitalInput(x+4) for x in range(5) ]
 
+    # Buttons
     align_button = Button(rightJoy, 3)
     hs_button = Button(leftJoy, 1)
 
 
-shooterMotor = wpilib.Jaguar(4)
+class Shooter(object):
+    joystick = rightJoy
+
+    latch_button = Button(rightJoy, 4)
+
+    latch_servo = wpilib.Servo(5)
+
+    shooter_Motor = wpilib.Jaguar(4)
+
+
 tipperMotor = wpilib.Jaguar(7)
 rollerMotor = wpilib.Victor(10)
 
 # Servos
 feederServo = wpilib.Servo(8)
-latchServo = wpilib.Servo(5)
+
 
 # Sensors
 shooterEncoder = wpilib.Encoder(1, 2, False)
@@ -40,7 +50,6 @@ bottomLimit = wpilib.DigitalInput(10)
 tipperUpButton = Button(rightJoy, 6)
 tipperDownButton = Button(rightJoy, 7)
 
-latchButton = Button(rightJoy, 4)
 
 feederButton = Button(rightJoy, 5)
 rollerUpButton = Button(rightJoy, 11)

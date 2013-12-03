@@ -1,7 +1,10 @@
+import common
+
 
 __all__ = ['Loader']
 
-class Loader(object):
+
+class Loader(common.ComponentBase):
 
     def __init__(self, config):
         self.load_button = config.load_button
@@ -20,7 +23,7 @@ class Loader(object):
             self.elapsed = 0
             self.loading = True
 
-    def tick(self, time):
+    def op_tick(self, time):
         self.elapsed += time - self.pTime
         self.pTime = time
         if self.load_button.get():

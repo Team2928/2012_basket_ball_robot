@@ -1,5 +1,6 @@
 import unittest
 
+import utils
 import mock
 
 import drive
@@ -48,7 +49,7 @@ class TestDrive(unittest.TestCase):
         for y in seq(-1.0, 1.0, 0.1):
             self.joystick.y = y
 
-            self.drive.tick()
+            self.drive.op_tick(100)
 
             self.assertEquals(self.robot_drive.speed, self.joystick.y)
             self.assertEquals(self.robot_drive.rotation, self.joystick.x)
@@ -57,7 +58,7 @@ class TestDrive(unittest.TestCase):
         for y in seq(1.0, -1.0, -0.1):
             self.joystick.y = y
 
-            self.drive.tick()
+            self.drive.op_tick(200)
 
             self.assertEquals(self.robot_drive.speed, self.joystick.y)
             self.assertEquals(self.robot_drive.rotation, self.joystick.x)
@@ -69,7 +70,7 @@ class TestDrive(unittest.TestCase):
         for x in seq(-1.0, 1.0, 0.1):
             self.joystick.x = x
 
-            self.drive.tick()
+            self.drive.op_tick(100)
 
             self.assertEquals(self.robot_drive.speed, self.joystick.y)
             self.assertEquals(self.robot_drive.rotation, self.joystick.x)
@@ -78,7 +79,7 @@ class TestDrive(unittest.TestCase):
         for x in seq(1.0, -1.0, -0.1):
             self.joystick.x = x
 
-            self.drive.tick()
+            self.drive.op_tick(200)
 
             self.assertEquals(self.robot_drive.speed, self.joystick.y)
             self.assertEquals(self.robot_drive.rotation, self.joystick.x)
@@ -92,7 +93,7 @@ class TestDrive(unittest.TestCase):
         for y in seq(-1.0, 1.0, 0.1):
             self.joystick.y = y
 
-            self.drive.tick()
+            self.drive.op_tick(100)
 
             self.assertEquals(self.robot_drive.speed, self.joystick.y/2)
             self.assertEquals(self.robot_drive.rotation, self.joystick.x)
@@ -101,7 +102,7 @@ class TestDrive(unittest.TestCase):
         for y in seq(1.0, -1.0, -0.1):
             self.joystick.y = y
 
-            self.drive.tick()
+            self.drive.op_tick(200)
 
             self.assertEquals(self.robot_drive.speed, self.joystick.y/2)
             self.assertEquals(self.robot_drive.rotation, self.joystick.x)
@@ -115,7 +116,7 @@ class TestDrive(unittest.TestCase):
         for x in seq(-1.0, 1.0, 0.1):
             self.joystick.x = x
 
-            self.drive.tick()
+            self.drive.op_tick(1)
 
             self.assertEquals(self.robot_drive.speed, self.joystick.y)
             self.assertEquals(self.robot_drive.rotation, self.joystick.x/2)
@@ -124,7 +125,7 @@ class TestDrive(unittest.TestCase):
         for x in seq(1.0, -1.0, -0.1):
             self.joystick.x = x
 
-            self.drive.tick()
+            self.drive.op_tick(10)
 
             self.assertEquals(self.robot_drive.speed, self.joystick.y)
             self.assertEquals(self.robot_drive.rotation, self.joystick.x/2)
@@ -157,7 +158,7 @@ class TestShooter(unittest.TestCase):
         for y in seq(-1.0, 1.0, 0.1):
             self.joystick.y = y
 
-            self.shooter.tick(10)
+            self.shooter.op_tick(10)
 
             self.assertEquals(self.shooter_motor.speed, self.joystick.y)
             self.assertEquals(self.shooter_motor.Get(), self.joystick.y)
@@ -166,13 +167,14 @@ class TestShooter(unittest.TestCase):
         for y in seq(1.0, -1.0, -0.1):
             self.joystick.y = y
 
-            self.shooter.tick(10)
+            self.shooter.op_tick(10)
 
             self.assertEquals(self.shooter_motor.speed, self.joystick.y)
             self.assertEquals(self.shooter_motor.Get(), self.joystick.y)
 
 
 class TestLoader(unittest.TestCase):
+
     def setUp(self):
         self.load_button = mock.Button()
         self.loader_servo = mock.Servo()
@@ -189,8 +191,6 @@ class TestLoader(unittest.TestCase):
     def tearDown(self):
         pass
 
-
-
     def test_load(self):
         """
         This test is currently failing. This correct as the code is currently
@@ -200,19 +200,55 @@ class TestLoader(unittest.TestCase):
         Currently the end time is way to short to be meaningful.
         """
 
-        self.loader.tick(0)
+        self.loader.op_tick(0)
         self.assertEqual(self.loader_servo.angle, 0)
 
         self.load_button.pressed = True
 
-        self.loader.tick(1)
+        self.loader.op_tick(1)
         self.assertEqual(self.loader_servo.angle, 0)
 
-        self.loader.tick(2000)
+        self.loader.op_tick(2000)
         self.assertEqual(self.loader_servo.angle, 1)
 
-        self.loader.tick(2000)
+        self.loader.op_tick(2000)
         self.assertEqual(self.loader_servo.angle, 1)
+
+
+class TestButtonControlledMotor(unittest.TestCase):
+
+    def setUp(self):
+        self.up_button = mock.Button()
+        self.down_button = mock.Button()
+        self.motor = mock.Motor()
+
+        class MockButtonControlledMotor(object):
+            motor = self.motor
+
+            up_button = self.up_button
+            down_button = self.down_button
+
+        self.button_motor = utils.ButtonControlledMotor(
+                                                 MockButtonControlledMotor)
+
+    def test_op_init(self):
+        self.motor.Set(1)
+        self.button_motor.op_init()
+        self.assertEqual(self.motor.speed, 0)
+
+    def test_up(self):
+        self.up_button.pressed = True
+
+        self.button_motor.op_tick(1)
+
+        self.assertEqual(self.motor.speed, -1)
+
+    def test_down(self):
+        self.down_button.pressed = True
+
+        self.button_motor.op_tick(1)
+
+        self.assertEqual(self.motor.speed, 1)
 
 
 if __name__ == '__main__':

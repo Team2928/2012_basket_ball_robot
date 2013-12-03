@@ -1,7 +1,10 @@
+import common
+
 
 __all__ = ['Drive']
 
-class Drive:
+
+class Drive(common.ComponentBase):
 
     def __init__(self, config):
         self.left = 0
@@ -14,7 +17,10 @@ class Drive:
 
         self.photo_sensors = config.photo_sensors
 
-    def tick(self, time = 0):
+    def op_init(self):
+        self.robot_drive.StopMotor()
+
+    def op_tick(self, time):
         if self.align_button.get():
             self.align()
         else:
@@ -24,9 +30,6 @@ class Drive:
                 speed /= 2
                 rot /= 2
             self.robot_drive.ArcadeDrive(speed, rot)
-
-    def stop(self):
-        self.robot_drive.StopMotor()
 
     def align(self):
         if self.photo_sensors[0].Get():

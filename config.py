@@ -39,22 +39,25 @@ class Loader(object):
     end_time = .4
 
 
-tipperMotor = wpilib.Jaguar(7)
-rollerMotor = wpilib.Victor(10)
+class Tipper(object):
+    motor = wpilib.Jaguar(7)
+
+    up_button = Button(rightJoy, 6)
+    down_button = Button(rightJoy, 7)
+
+
+class Roller(object):
+    motor = wpilib.Victor(10)
+
+    up_button = Button(rightJoy, 11)
+    down_button= Button(rightJoy, 10)
+
 
 # Sensors
 shooterEncoder = wpilib.Encoder(1, 2, False)
 
 topLimit = wpilib.DigitalInput(9)
 bottomLimit = wpilib.DigitalInput(10)
-
-# Button Mappings
-## Right Joystick ##
-tipperUpButton = Button(rightJoy, 6)
-tipperDownButton = Button(rightJoy, 7)
-
-rollerUpButton = Button(rightJoy, 11)
-rollerDownButton = Button(rightJoy, 10)
 
 # Core Functions
 def CheckRestart():

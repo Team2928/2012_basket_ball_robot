@@ -1,7 +1,11 @@
+import common
+
 
 __all__ = ['Shooter']
 
-class Shooter:
+
+class Shooter(common.ComponentBase):
+
     def __init__(self, config):
         self.joystick = config.joystick
         self.latch_button = config.latch_button
@@ -20,7 +24,10 @@ class Shooter:
             self.elapsed = 0
             self.shooting = True
 
-    def tick(self, time):
+    def op_init(self):
+        self.shooter_motor.Set(0)
+
+    def op_tick(self, time):
         self.elapsed += time - self.pTime
         self.pTime = time
 

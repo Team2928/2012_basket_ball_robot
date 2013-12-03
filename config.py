@@ -31,16 +31,19 @@ class Shooter(object):
     shooter_Motor = wpilib.Jaguar(4)
 
 
+class Loader(object):
+    loader_servo = wpilib.Servo(8)
+
+    load_button = Button(rightJoy, 5)
+
+    end_time = .4
+
+
 tipperMotor = wpilib.Jaguar(7)
 rollerMotor = wpilib.Victor(10)
 
-# Servos
-feederServo = wpilib.Servo(8)
-
-
 # Sensors
 shooterEncoder = wpilib.Encoder(1, 2, False)
-
 
 topLimit = wpilib.DigitalInput(9)
 bottomLimit = wpilib.DigitalInput(10)
@@ -50,8 +53,6 @@ bottomLimit = wpilib.DigitalInput(10)
 tipperUpButton = Button(rightJoy, 6)
 tipperDownButton = Button(rightJoy, 7)
 
-
-feederButton = Button(rightJoy, 5)
 rollerUpButton = Button(rightJoy, 11)
 rollerDownButton = Button(rightJoy, 10)
 

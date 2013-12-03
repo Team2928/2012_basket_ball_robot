@@ -175,16 +175,44 @@ class TestShooter(unittest.TestCase):
 class TestLoader(unittest.TestCase):
     def setUp(self):
         self.load_button = mock.Button()
-        self.load_servo = mock.Servo()
+        self.loader_servo = mock.Servo()
+        self.end_time = 0.4
 
-        self.loader = loader.Loader(self.load_button,
-                                    self.load_servo)
+        class MockLoaderConfig(object):
+            load_button = self.load_button
+            loader_servo = self.loader_servo
+
+            end_time = self.end_time
+
+        self.loader = loader.Loader(MockLoaderConfig)
 
     def tearDown(self):
         pass
 
-    ## Add in tests
 
+
+    def test_load(self):
+        """
+        This test is currently failing. This correct as the code is currently
+        broken. I will figure out what it is meant to be doing. Fix the test
+        then the code.
+
+        Currently the end time is way to short to be meaningful.
+        """
+
+        self.loader.tick(0)
+        self.assertEqual(self.loader_servo.angle, 0)
+
+        self.load_button.pressed = True
+
+        self.loader.tick(1)
+        self.assertEqual(self.loader_servo.angle, 0)
+
+        self.loader.tick(2000)
+        self.assertEqual(self.loader_servo.angle, 1)
+
+        self.loader.tick(2000)
+        self.assertEqual(self.loader_servo.angle, 1)
 
 
 if __name__ == '__main__':

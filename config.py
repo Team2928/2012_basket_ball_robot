@@ -2,8 +2,8 @@ import wpilib
 from utils import Button
 
 # Joysticks
-leftJoy = wpilib.Joystick(2)
-rightJoy = wpilib.Joystick(1)
+leftJoy = wpilib.Joystick(1)
+rightJoy = wpilib.Joystick(2)
 
 leftMotor = wpilib.Jaguar(1)
 rightMotor = wpilib.Jaguar(2)
@@ -28,7 +28,7 @@ class Shooter(object):
 
     latch_servo = wpilib.Servo(5)
 
-    shooter_Motor = wpilib.Jaguar(4)
+    shooter_motor = wpilib.Jaguar(4)
 
 
 class Loader(object):

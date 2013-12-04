@@ -1,6 +1,7 @@
 import wpilib
 
 import config
+import utils
 import common
 
 from drive import Drive
@@ -23,10 +24,10 @@ class MyRobot(wpilib.SimpleRobot):
         self.drive = Drive(config.Drive)
         self.components.append(self.drive)
 
-        self.tipper = common.ButtonControlledMotor(config.Tipper)
+        self.tipper = utils.ButtonControlledMotor(config.Tipper)
         self.components.append(self.tipper)
 
-        self.roller = common.ButtonControlledMotor(config.Roller)
+        self.roller = utils.ButtonControlledMotor(config.Roller)
         self.components.append(self.roller)
 
 
@@ -46,7 +47,6 @@ class MyRobot(wpilib.SimpleRobot):
 
         while wpilib.IsDisabled():
             dog.Feed()
-            CheckRestart()
 
             for componet in self.components:
                 componet.disabled_tick(wpilib.Timer.GetFPGATimestamp())
@@ -63,7 +63,6 @@ class MyRobot(wpilib.SimpleRobot):
 
         while wpilib.IsAutonomous() and wpilib.IsEnabled():
             dog.Feed()
-            CheckRestart()
 
             for componet in self.components:
                 componet.auto_tick(wpilib.Timer.GetFPGATimestamp())
@@ -80,12 +79,9 @@ class MyRobot(wpilib.SimpleRobot):
 
         while self.IsOperatorControl() and self.IsEnabled():
             dog.Feed()
-            CheckRestart()
             for componet in self.components:
                 componet.op_tick(wpilib.Timer.GetFPGATimestamp())
 
-            ## Debug & Tuning
-            # ??
             wpilib.Wait(0.01)
 
 

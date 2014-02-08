@@ -14,7 +14,13 @@ class Drive(object):
 
     drive_joy = leftJoy
 
-    photo_sensors = [ wpilib.DigitalInput(x+4) for x in range(5) ]
+    leftFront = wpilib.DigitalInput(1)
+
+    leftBack = wplib.DigitalInput(2)
+
+    rightFront = wplib.DigitalInput(3)
+
+    rightBack = wplib.DigitalInput(4)
 
     # Buttons
     align_button = Button(rightJoy, 3)

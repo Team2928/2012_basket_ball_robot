@@ -32,6 +32,10 @@ class Drive(common.ComponentBase):
             self.robot_drive.ArcadeDrive(speed, rot)
 
     def align(self):
+        frontLeft = self.photo_sensors[0].Get()
+        backLeft = self.photo_sensors[1].Get()
+        frontRight = self.photo_sensors[2].Get()
+        backRight = self.photo_sensors[3].Get()
         if self.photo_sensors[0].Get():
             self.left += .25
         if self.photo_sensors[1].Get():

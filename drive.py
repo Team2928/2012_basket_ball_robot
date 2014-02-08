@@ -36,14 +36,23 @@ class Drive(common.ComponentBase):
         backLeft = self.photo_sensors[1].Get()
         frontRight = self.photo_sensors[2].Get()
         backRight = self.photo_sensors[3].Get()
-        if self.photo_sensors[0].Get():
-            self.left += .25
-        if self.photo_sensors[1].Get():
-            self.left -= .25
-        if self.photo_sensors[2].Get():
-            self.right += .25
-        if self.photo_sensors[3].Get():
-            self.right -= .25
+        motorSpeed = .25
 
+        if frontLeft and backLeft:
+            self.left = 0
+        elif not frontLeft and backLeft
+            self.left = -motorSpeed
+        else:
+            self.left = motorSpeed
+
+
+        if frontRight and backRight:
+            self.right = 0
+        elif not frontRight and backRight
+            self.right = -motorSpeed
+        else:
+            self.right = motorSpeed 
+            
+            
         # I think this should work....?
         self.robot_drive.SetLeftRightMotorOutputs(self.left, self.right)
